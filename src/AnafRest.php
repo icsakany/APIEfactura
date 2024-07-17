@@ -13,7 +13,6 @@ include_once 'Constants.php';
     private $status_url;
     private $download_url;
     private $ubi_file_path;
-    private $xmltopdf_url;
     private $mess_url;
     private $vat_number;
     private $testmode;
@@ -61,19 +60,30 @@ include_once 'Constants.php';
         return $this->redirect_uri;
     }
 
-    public function AuthorizeAnaf()
+    public function authorizeAnaf(): void
     {
         $link = "https://logincert.anaf.ro/anaf-oauth2/v1/authorize?response_type=code&client_id=".CLIENT_ID."&redirect_uri=".CLIENT_REDIRECT_URI."&token_content_type=jwt";
         header("Location: $link");
     }
-    public function getTokenAnaf($code)
+    public function getTokenAnaf($code): void
     {
         $code=$_GET['code'];
         if (isset($_GET['op']) && $_GET['op']=="gettoken" && empty($code)){
-            $this->AuthorizeAnaf();
+            $this->authorizeAnaf();
         }
         if (!empty($code)) {
+            $test = "grant_type=authorization_code&code=".$code."&client_id=".$this->client_id."&client_secret=".$this->client_secret."&redirect_uri=".$this->redirect_uri;
+            $ch = curl_init();
 
+            curl_setopt($ch, CURLOPT_URL, $this->token_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $test);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_output = curl_exec($ch);
+            curl_close($ch);
+            $outputJson = json_decode($server_output, true);
+
+            $this->token = $outputJson["access_token"];
         }
 
     }
