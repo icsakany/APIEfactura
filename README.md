@@ -3,6 +3,10 @@
 
 E-factura integration for SabeeApp
 
+Official documentation for Endpoints:
+https://mfinante.gov.ro/static/10/eFactura/prezentare%20api%20efactura.pdf
+https://mfinante.gov.ro/web/efactura/informatii-tehnice
+
 Done so far: 
 
     Authorization
