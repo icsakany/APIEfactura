@@ -23,8 +23,9 @@ To do next:
 Decision Backlog:
 
 1. Drop the Card de Vacanta (Szep kartya) option entirely as it is now supported as payment method in Sabeeapp at the moment
-2. Do we need the official XML to PDF ?
-3. Do we need their XML validator or is something already in house? (also theirs seem to not work all the time)
-4. Storing app related info: CLIENT ID , CLIENT SECRET, CALLBACK URL
-5. Storing provider related info: CIF (Vat nr)
-6. Do we need a different type of XML for upload? should we make it dynamic?
+Next up: 
+1. Do we need the official XML to PDF ?
+2. Do we need their XML validator or is something already in house? (also theirs seem to not work all the time)
+3. Storing app related info: CLIENT ID , CLIENT SECRET, CALLBACK URL
+4. Storing provider related info: CIF (Vat nr)
+5. Do we need a different type of XML for upload? should we make it dynamic?
