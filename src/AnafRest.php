@@ -89,7 +89,10 @@ include_once 'Constants.php';
 
     }
 
-    public function uploadUBIAnaf() :array
+     /**
+      * @throws Exception
+      */
+     public function uploadUBIAnaf() :array
     {
         $url = $this->upload_url;
         $xmlContent = file_get_contents($this->ubi_file_path);
@@ -119,7 +122,11 @@ include_once 'Constants.php';
         return $array;
 
     }
-   public function statusUBIAnaf(): string
+
+     /**
+      * @throws Exception
+      */
+     public function statusUBIAnaf(): string
     {
 
         $url = $this->status_url.$this->fact_id;
@@ -202,7 +209,5 @@ include_once 'Constants.php';
 
         return $response;
     }
-
-
 
 }
