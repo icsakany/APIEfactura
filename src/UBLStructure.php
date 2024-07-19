@@ -48,27 +48,27 @@ class UBLStructure
         $x->text('urn:cen.eu:en16931:2017#compliant#urn:efactura.mfinante.ro:CIUS-RO:1.0.1');
         $x->endElement();
         $x->startElement('cbc:ID');
-        $x->text($fact_data[0]['numar_factura']);
+        $x->text($fact_data[0]['invoice_id']);
         $x->endElement();
-        $x->startElement('cbc:IssueDate');$x->text($fact_data[0]['data_factura']);$x->endElement();
-        $x->startElement('cbc:DueDate');$x->text($fact_data[0]['data_valabilitate_factura']);$x->endElement();
-        $x->startElement('cbc:InvoiceTypeCode');$x->text('380');$x->endElement();
-        $x->startElement('cbc:DocumentCurrencyCode');$x->text('RON');$x->endElement();
+        $x->startElement('cbc:IssueDate');$x->text($fact_data[0]['invoice_date']);$x->endElement();
+        $x->startElement('cbc:DueDate');$x->text($fact_data[0]['date_of_validity']);$x->endElement();
+        $x->startElement('cbc:InvoiceTypeCode');$x->text($fact_data[0]['invoice_type_code']);$x->endElement(); // accepted ones are 380,384,389,751
+        $x->startElement('cbc:DocumentCurrencyCode');$x->text($fact_data[0]['invoice_currency']);$x->endElement();
         $x->startElement('cac:AccountingSupplierParty');
         $x->startElement('cac:Party');
         $x->startElement('cac:PostalAddress');
-        $x->startElement('cbc:StreetName');$x->text($fact_data[0]['adresa_firma']);$x->endElement();
-        $x->startElement('cbc:CityName');$x->text($fact_data[0]['oras_firma']);$x->endElement();
-        $x->startElement('cbc:PostalZone');$x->text($fact_data[0]['codul_postal_firma']);$x->endElement();
-        $x->startElement('cbc:CountrySubentity');$x->text($fact_data[0]['cod_judet_firma']);$x->endElement();
+        $x->startElement('cbc:StreetName');$x->text($fact_data[0]['provider_adress']);$x->endElement();
+        $x->startElement('cbc:CityName');$x->text($fact_data[0]['provider_city']);$x->endElement();
+        $x->startElement('cbc:PostalZone');$x->text($fact_data[0]['provider_postal_code']);$x->endElement();
+        $x->startElement('cbc:CountrySubentity');$x->text($fact_data[0]['code_of_country']);$x->endElement();
         $x->startElement('cac:Country');
-        $x->startElement('cbc:IdentificationCode');$x->text('RO');$x->endElement();
+        $x->startElement('cbc:IdentificationCode');$x->text('RO');$x->endElement(); //harcoded since it's only used for romanian providers, can be changed later
         $x->endElement();
         $x->endElement();
 
         $x->startElement('cac:PartyLegalEntity');
-        $x->startElement('cbc:RegistrationName');$x->text($fact_data[0]['nume_firma']);$x->endElement();
-        $x->startElement('cbc:CompanyID');$x->text($fact_data[0]['codul_fiscal_firma']);$x->endElement();
+        $x->startElement('cbc:RegistrationName');$x->text($fact_data[0]['provider_firm_name']);$x->endElement();
+        $x->startElement('cbc:CompanyID');$x->text($fact_data[0]['provider_vat_number']);$x->endElement();
         $x->endElement();
         $x->endElement();
         $x->endElement();
@@ -76,12 +76,12 @@ class UBLStructure
         $x->startElement('cac:AccountingCustomerParty');
         $x->startElement('cac:Party');
         $x->startElement('cac:PostalAddress');
-        $x->startElement('cbc:StreetName');$x->text($fact_data[0]['adresa_client']);$x->endElement();
-        $x->startElement('cbc:CityName');$x->text($fact_data[0]['oras_client']);$x->endElement();
-        $x->startElement('cbc:PostalZone');$x->text($fact_data[0]['codul_postal_client']);$x->endElement();
-        $x->startElement('cbc:CountrySubentity');$x->text($fact_data[0]['cod_judet_client']);$x->endElement();
+        $x->startElement('cbc:StreetName');$x->text($fact_data[0]['client_adress']);$x->endElement();
+        $x->startElement('cbc:CityName');$x->text($fact_data[0]['client_city']);$x->endElement();
+        $x->startElement('cbc:PostalZone');$x->text($fact_data[0]['client_postalcode']);$x->endElement();
+        $x->startElement('cbc:CountrySubentity');$x->text($fact_data[0]['client_county']);$x->endElement();
         $x->startElement('cac:Country');
-        $x->startElement('cbc:IdentificationCode');$x->text('RO');$x->endElement();
+        $x->startElement('cbc:IdentificationCode');$x->text($fact_data[0]['client_country_code']);$x->endElement();
         $x->endElement();
         $x->endElement();
         $x->startElement('cac:PartyLegalEntity');
