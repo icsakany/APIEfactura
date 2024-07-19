@@ -1,19 +1,22 @@
 <?php
 
 include_once 'Constants.php';
- class AnafRest
+ class AnafInvoice
 
 {
+    //dev info
     private string $client_id;
     private string $client_secret;
     private string $redirect_uri;
+
     private string $authorize_url;
     private string $token_url;
     private string $upload_url;
     private string $status_url;
     private string $download_url;
-    private string $ubi_file_path;
     private string $list_url;
+
+    private string $ubi_file_path;
     private string $vat_number;
     private string $fact_id;
     private string $download_id;
