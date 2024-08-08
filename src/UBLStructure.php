@@ -2,12 +2,13 @@
 
 class UBLStructure
 {
-    function AnafExport($ubl_file_path, $invoice): void
+    function AnafExport($invoiceId, $invoice): void
     {
 
+
         $x=new XMLWriter();
-        //$filename=$ubl_file_path;
         $x->openURI('php://stdout');
+        //$x->openURI($invoiceId. '.xml');
         $x->startDocument('1.0','UTF-8','yes');
         $x->setIndent(true);
         $x->startElement('Invoice');
@@ -207,6 +208,7 @@ class UBLStructure
         }
         $x->endElement(); // root
         $x->endDocument();
+
     }
 
 

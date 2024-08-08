@@ -1,11 +1,21 @@
 <?php
-function CreateInvoiceXml ( $invoiceID, $isSystemInvoice = false)
+
+include_once 'invoice_array.php';
+include_once 'UBLStructure.php';
+
+function CreateInvoiceXml ( $invoiceID, $isSystemInvoice = false) : SimpleXMLElement|bool
 {
+    $invoiceData = getInvoiceData();
+    $UBLfile = new UBLStructure();
+    $UBLfile->AnafExport($invoiceID, $invoiceData);
+    $xml = simplexml_load_file($invoiceID . '.xml');
+    return $xml;
 
 }
-function getInvoiceData($invoiceID) { // kell egyaltalan a systeminvoice megkulonboztetes?
+function getInvoiceData() : array{ // $invoice
 
     //$invoice = Invoices::GetInvoiceByID($invoiceID);
+    $invoice = invoice_items;
 
     $supplierData = array (
         'Name'         => $invoice[0]['ProviderName'],
@@ -22,6 +32,14 @@ function getInvoiceData($invoiceID) { // kell egyaltalan a systeminvoice megkulo
         'VATNumber'    =>  $supplierVAT,
         'Currency'     => $providerData['Currency']
     );
+    $vatNumber = $invoice[0]['BillingVatNumber'];
+
+    if (!empty($invoice[0]['BillingLocalVATNumber'])) {
+        $vatNumber = $invoice[0]['BillingLocalVATNumber'];
+    }
+
+    //$countryID = Countries::GetCountryIDByCountryNameAllLanguages($invoice[0]['BillingCountry'])[0]['CountryID'];
+    $countryID = $invoice[0]['BillingCountryID'];
 
     $customerData = array (
         'Name'        => $invoice[0]['BillingCompanyName'],
@@ -42,7 +60,7 @@ function getInvoiceData($invoiceID) { // kell egyaltalan a systeminvoice megkulo
 
     );
 
-    $invoiceItems = Invoices::GetInvoiceItemsByID($invoiceID);
+    //$invoiceItems = Invoices::GetInvoiceItemsByID($invoiceID);
 
     if (!empty($invoice[0]['ShowIncludedExtrasInInvoicePdf'])) {
         $invoiceItems = ModifyAccomodationLinesAndAddIncludedExtrasForInvoicePdf($invoiceItems, $invoice[0]);
@@ -70,8 +88,7 @@ function GetPaymentMethodType($paymentType) {
         case "Mixed":
             return 'ZZZ'; //Mutually defined A code assigned within a code list to be used on an interim basis and as defined among trading partners until a precise code can be assigned to the code list.
                          // there's no Pebbol BIS code for mixed payment method
-
-        default :
+            //default :
             return 'ZZZ';
     }
 }
